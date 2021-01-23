@@ -37,10 +37,10 @@ public class NickCommand extends CommandBase{
 	public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         switch (args.length) {
         case 1:
-			return getListOfStringsMatchingLastWord(args, "set", "reset");
+		return getListOfStringsMatchingLastWord(args, "set", "reset");
         default:
             return Collections.emptyList();
-        }
+        	}
 	}
 
 	@Override

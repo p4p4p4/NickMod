@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod(modid = NickMod.MODID, name = NickMod.NAME, version = NickMod.VERSION)
 public class NickMod {
 	
-	/* NickMod by p4tr1ck */
+    /* NickMod by p4tr1ck */
 	
     public static final String MODID = "nickmod";
     public static final String NAME = "NickMod";

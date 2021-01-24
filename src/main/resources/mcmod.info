@@ -2,8 +2,8 @@
 {
   "modid": "nickmod",
   "name": "NickMod",
-  "description": "NickMod is a simple mod that allows you to change your nickname in the chat. Usage: /nickmod set [nickname] | /nickmod reset.",
-  "version": "1.1",
+  "description": "NickMod is a simple mod that allows you to change your nickname in the chat. Usage: /nickmod set [nickname] | /nickmod color [color] | /nickmod reset",
+  "version": "1.2",
   "mcversion": "${mcversion}",
   "url": "https://github.com/p4p4p4",
   "updateUrl": "",

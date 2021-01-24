@@ -2,9 +2,9 @@ package me.p4tr1ck.nickmod;
 
 import java.io.File;
 
-import me.p4tr1ck.nickmod.command.NickCommand;
-import me.p4tr1ck.nickmod.common.ConfigHandler;
-import me.p4tr1ck.nickmod.common.NameChanger;
+import me.p4tr1ck.nickmod.commands.NickModCommand;
+import me.p4tr1ck.nickmod.handlers.ChatHandler;
+import me.p4tr1ck.nickmod.handlers.ConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -22,7 +22,7 @@ public class NickMod {
 	
     public static final String MODID = "nickmod";
     public static final String NAME = "NickMod";
-    public static final String VERSION = "1.1";
+    public static final String VERSION = "1.2";
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -32,11 +32,11 @@ public class NickMod {
         final ClientCommandHandler commandRegister = ClientCommandHandler.instance;
         ConfigHandler.loadSettings();
         
-        commandRegister.registerCommand(new NickCommand());
+        commandRegister.registerCommand(new NickModCommand());
     }
     
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
-    	NameChanger.changeNames(event);
+    	ChatHandler.editChat(event);
     }
 }

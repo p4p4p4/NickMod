@@ -1,4 +1,4 @@
-package me.p4tr1ck.nickmod.common;
+package me.p4tr1ck.nickmod.utils;
 
 import me.p4tr1ck.nickmod.NickMod;
 import net.minecraft.client.Minecraft;
@@ -11,7 +11,7 @@ public class Sender {
 
     public static String cmdPrefix = EnumChatFormatting.GOLD + "[" + NickMod.NAME + "] " + EnumChatFormatting.GRAY;
 	public static String modDesc = EnumChatFormatting.GOLD + NickMod.NAME + EnumChatFormatting.GRAY + " is a simple mod that allows you to change your name in the chat.";
-	public static String modUsage =  "Usage: /nickmod set [nickname] - /nickmod reset";
+	public static String modUsage =  "Usage: /nickmod set [nickname] | /nickmod color [color] | /nickmod reset";
 	
     public static void sendMessage(String message) {
     	Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(cmdPrefix + message));

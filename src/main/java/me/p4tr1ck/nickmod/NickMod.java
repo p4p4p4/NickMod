@@ -1,9 +1,11 @@
 package me.p4tr1ck.nickmod;
 
+import java.io.File;
+
 import me.p4tr1ck.nickmod.command.NickCommand;
+import me.p4tr1ck.nickmod.common.ConfigHandler;
+import me.p4tr1ck.nickmod.common.NameChanger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,29 +22,21 @@ public class NickMod {
 	
     public static final String MODID = "nickmod";
     public static final String NAME = "NickMod";
-    public static final String VERSION = "1.0";
-    
-    public static String nickname;
-    public static Boolean set = false;
-    public static String cmdPrefix = EnumChatFormatting.GOLD + "[" + NAME + "] " + EnumChatFormatting.GRAY;
+    public static final String VERSION = "1.1";
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
+    	ConfigHandler.saveFile = new File(Minecraft.getMinecraft().mcDataDir + "/config", "nickmod.cfg");
         FMLCommonHandler.instance().bus().register(this);
         MinecraftForge.EVENT_BUS.register(this);
         final ClientCommandHandler commandRegister = ClientCommandHandler.instance;
+        ConfigHandler.loadSettings();
         
         commandRegister.registerCommand(new NickCommand());
     }
     
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
-    	String message = event.message.getFormattedText();
-    	
-    	if(set) {
-    		message = message.replace(Minecraft.getMinecraft().thePlayer.getName(), nickname);
-    		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(message));
-    		event.setCanceled(true);
-    	}
+    	NameChanger.changeNames(event);
     }
 }

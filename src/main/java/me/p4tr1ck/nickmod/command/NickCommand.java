@@ -1,15 +1,18 @@
 package me.p4tr1ck.nickmod.command;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.p4tr1ck.nickmod.NickMod;
+import com.google.common.collect.ImmutableList;
+
+import me.p4tr1ck.nickmod.common.ConfigHandler;
+import me.p4tr1ck.nickmod.common.NameChanger;
+import me.p4tr1ck.nickmod.common.Sender;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class NickCommand extends CommandBase{
@@ -26,7 +29,11 @@ public class NickCommand extends CommandBase{
 		return "/nickmod set [nickname] | /nickmod reset";
 	}
 	
-
+    @Override
+    public List<String> getCommandAliases() {
+        return ImmutableList.of("nm");
+    }
+	
 	@Override
 	public int getRequiredPermissionLevel() {
 		return -1;
@@ -47,34 +54,44 @@ public class NickCommand extends CommandBase{
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		int count = args.length;
 		
-		if(count == 0) {
-			sender.addChatMessage(new ChatComponentText(NickMod.cmdPrefix + "NickMod is a simple mod that allows you to change your nickname in the chat. Usage: /nickmod set [nickname] | /nickmod reset."));
-			
-		}else if(count > 2){
-			sender.addChatMessage(new ChatComponentText(NickMod.cmdPrefix + "Too many arguments."));
+		switch(args.length) {
 		
-		}else {
-			
-			/* Set */
-			
-			if(args[0].equalsIgnoreCase("set") && count == 2) {
-				if(args[1].length() > 16) {
-					sender.addChatMessage(new ChatComponentText(NickMod.cmdPrefix + "Your nickname must be 16 characters or less."));
-				}else {
-					NickMod.set = true;
-					NickMod.nickname = args[1];
-					sender.addChatMessage(new ChatComponentText(NickMod.cmdPrefix + "Your nickname has been set to " + NickMod.nickname + "."));
+			case 0:
+				Sender.sendModInfo();
+				break;
+				
+			case 1:
+				
+				switch(args[0]) {
+				
+					case "reset":
+						NameChanger.set = false;
+						NameChanger.nickname = Minecraft.getMinecraft().thePlayer.getName();
+						Sender.sendMessage("Your nickname was reset.");
+						ConfigHandler.saveSettings();
+						break;
 				}
-			}else if(args[0].equalsIgnoreCase("set") && count < 2){
-				sender.addChatMessage(new ChatComponentText(NickMod.cmdPrefix + "Not enough arguments."));
-			}
-			
-			/* Reset */
-			
-			if(args[0].equalsIgnoreCase("reset")){
-				NickMod.set = false;
-				sender.addChatMessage(new ChatComponentText(NickMod.cmdPrefix + "Your nickname was reset."));
-			}
+				break;
+				
+			case 2:
+				
+				switch(args[0]) {
+				
+				case "set":
+					if(args[1].length() > 16) {
+						Sender.sendMessage("Your nickname must be 16 characters or less.");
+					}else {
+						if(!args[1].equals(NameChanger.nickname)) {
+							NameChanger.set = true;
+							NameChanger.nickname = args[1];
+							Sender.sendMessage("Your nickname has been set to " + EnumChatFormatting.YELLOW + NameChanger.nickname + EnumChatFormatting.GRAY + ".");
+							ConfigHandler.saveSettings();
+						}else {
+							Sender.sendMessage("That is already your nickname!");
+						}
+					}
+				}
+				break;
 		}
 	}
 }

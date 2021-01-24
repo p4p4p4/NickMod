@@ -1,9 +1,14 @@
 package me.p4tr1ck.nickmod.handlers;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import me.p4tr1ck.nickmod.utils.NameAndColorUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class ChatHandler {
@@ -13,7 +18,7 @@ public class ChatHandler {
 	public static void editChat(ClientChatReceivedEvent event) {
     	String message = event.message.getFormattedText(); 
     	
-		if(NameAndColorUtils.setColor && NameAndColorUtils.setNickname) {
+    	if(NameAndColorUtils.setColor && NameAndColorUtils.setNickname) {
     		if(NameAndColorUtils.color.equalsIgnoreCase("BLACK")) {
 	    		message = message.replaceAll("(?i)" + Minecraft.getMinecraft().thePlayer.getName(), EnumChatFormatting.BLACK + NameAndColorUtils.nickname);
     		}else if(NameAndColorUtils.color.equalsIgnoreCase("DARK_BLUE")) {
@@ -45,6 +50,7 @@ public class ChatHandler {
     		}else if(NameAndColorUtils.color.equalsIgnoreCase("YELLOW")) {
         		message = message.replaceAll("(?i)" + Minecraft.getMinecraft().thePlayer.getName(), EnumChatFormatting.YELLOW + NameAndColorUtils.nickname);
     		}
+    		
 		}else if(NameAndColorUtils.setColor && !NameAndColorUtils.setNickname) {
     		if(NameAndColorUtils.color.equalsIgnoreCase("BLACK")) {
 	    		message = message.replaceAll("(?i)" + Minecraft.getMinecraft().thePlayer.getName(), EnumChatFormatting.BLACK + Minecraft.getMinecraft().thePlayer.getName());
@@ -77,12 +83,12 @@ public class ChatHandler {
     		}else if(NameAndColorUtils.color.equalsIgnoreCase("YELLOW")) {
         		message = message.replaceAll("(?i)" + Minecraft.getMinecraft().thePlayer.getName(), EnumChatFormatting.YELLOW + Minecraft.getMinecraft().thePlayer.getName());
     		}
+    		
 		}else if(!NameAndColorUtils.setColor && NameAndColorUtils.setNickname) {
     		message = message.replaceAll("(?i)" + Minecraft.getMinecraft().thePlayer.getName(), NameAndColorUtils.nickname);
-    	}
+		}
 		
 		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(message));
 		event.setCanceled(true);
 	}
-	
 }

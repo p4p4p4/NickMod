@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
+import me.p4tr1ck.nickmod.handlers.ChatHandler;
 import me.p4tr1ck.nickmod.handlers.ConfigHandler;
 import me.p4tr1ck.nickmod.utils.NameAndColorUtils;
 import me.p4tr1ck.nickmod.utils.Sender;
@@ -105,7 +106,7 @@ public class NickModCommand extends CommandBase{
 						Sender.sendMessage("Your name's color has been set to " + EnumChatFormatting.YELLOW + NameAndColorUtils.color + EnumChatFormatting.GRAY + ".");
 						ConfigHandler.saveSettings();
 					}else {
-						Sender.sendMessage("Invalid color!");
+						Sender.sendMessage("Color not found!");
 					}
 					break;
 				}
